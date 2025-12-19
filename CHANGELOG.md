@@ -1,3 +1,6 @@
+## 1.1.1
+- Removed unwanted image description and image fix height
+
 ## 1.1.0
 - Updated dependency versions to latest stable releases
 - Improved Dart 3 analysis and linting configuration

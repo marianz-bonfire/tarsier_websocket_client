@@ -77,7 +77,7 @@ This package is designed for the **Pusher WebSocket protocol**.  It has been tes
 Add the package to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  tarsier_websocket_client: ^1.1.0
+  tarsier_websocket_client: ^1.1.1
 ```
 Install it by running:
 ```sh
