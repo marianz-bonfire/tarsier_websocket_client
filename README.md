@@ -32,7 +32,10 @@
 
 **Tarsier WebSocket Client** is a Dart package for managing WebSocket connections and real-time event handling. It is designed to be compatible with the Pusher WebSocket protocol used by [pusher.com](https://pusher.com/docs/channels/). This package extends the functionality of the `pusher_client` package to support the *Windows platform*, while maintaining compatibility with other platforms.
 
-This package has been tested with [Laravel WebSockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) from [BeyondCode](https://beyondco.de/). Although not explicitly tested with Pusher.com, it is expected to work with Pusher due to protocol compatibility.
+~~This package has been tested with [Laravel WebSockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) from [BeyondCode](https://beyondco.de/). Although not explicitly tested with Pusher.com, it is expected to work with Pusher due to protocol compatibility.~~
+
+This package has been tested and verified to work with [Laravel WebSockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) by [BeyondCode](https://beyondco.de/) as well as [pusher.com](https://pusher.com/docs/channels/).
+Since both services follow the same protocol, they are fully supported.
 
 
 ## ✨ Features
@@ -49,15 +52,33 @@ This package has been tested with [Laravel WebSockets](https://beyondco.de/docs/
 - **Reconnection Logic**: Automatic reconnection with configurable retry attempts and intervals.
 - **Logging**: Configurable logging for debugging and monitoring.
 
+<p align="center">
+  <a href="https://pub.dev/packages/tarsier_websocket_client">
+    <img height="260" src="https://raw.githubusercontent.com/marianz-bonfire/tarsier_websocket_client/master/example/flutter_example/assets/NvdCYXm98i.png">
+  </a>
+  <h1 align="center">Tarsier WebSocket Client</h1>
+</p>
+
 ## 👋 Disclaimer
-This package is designed to work with the Pusher WebSocket protocol. It has been thoroughly tested with [Laravel WebSockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) but not explicitly with the official [pusher.com](https://pusher.com/docs/channels/) service. If it works with [Laravel WebSockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction), it is likely to work with [pusher.com](https://pusher.com/docs/channels/) due to protocol compatibility. Feedback from developers testing it with Pusher.com is highly appreciated.
+~~This package is designed to work with the Pusher WebSocket protocol. It has been thoroughly tested with [Laravel WebSockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction) but not explicitly with the official [pusher.com](https://pusher.com/docs/channels/) service. If it works with [Laravel WebSockets](https://beyondco.de/docs/laravel-websockets/getting-started/introduction), it is likely to work with [pusher.com](https://pusher.com/docs/channels/) due to protocol compatibility. Feedback from developers testing it with Pusher.com is highly appreciated.~~
+
+This package is designed for the **Pusher WebSocket protocol**.  It has been tested with **Laravel WebSockets (BeyondCode)** and **Pusher (pusher.com)**.
+
+> **Note / TODO:**  
+> Compatibility with **Laravel Reverb** has not yet been fully tested and is planned for a future update.
+
+
+### Compatibility Roadmap
+- ✅ Laravel WebSockets (BeyondCode)
+- ✅ Pusher (pusher.com)
+- ⏳ Laravel Reverb (planned)
 
 
 ## 🚀 Installation
 Add the package to your `pubspec.yaml`:
 ```yaml
 dependencies:
-  tarsier_websocket_client: ^1.0.1
+  tarsier_websocket_client: ^1.1.0
 ```
 Install it by running:
 ```sh

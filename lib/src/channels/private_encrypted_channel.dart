@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'private_channel.dart';
+
+import '../utils/print_debug.dart';
+import 'channel.dart';
+
 
 /// Represents a private encrypted channel that inherits from [PrivateChannel].
 ///
@@ -50,7 +53,7 @@ class PrivateEncryptedChannel extends PrivateChannel {
       try {
         data = _decrypt(data as Map<String, dynamic>);
       } catch (e) {
-        options.log("ERROR", name, "Failed to decrypt event data: $e");
+        options.log("ERROR", channel: name, message: "Failed to decrypt event data: $e", type: DebugType.error);
         return;
       }
     }
