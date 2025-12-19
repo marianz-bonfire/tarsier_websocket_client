@@ -82,7 +82,7 @@ class PusherClient {
   /// Optionally, a [code] and [reason] can be provided to describe the
   /// reason for disconnection.
   void disconnect([int? code, String? reason]) {
-    options.log("DISCONNECT", null, "code: $code,  reason: $reason");
+    options.log("DISCONNECT", data: {"code": code, "reason": reason}, type: DebugType.warning);
 
     _socket.close(code, reason);
     __socket = null;
@@ -101,8 +101,8 @@ class PusherClient {
 
     options.log(
       "CONNECTION_STATE_CHANGED",
-      null,
-      "The connection state changed from ${states[_connectionState]} to ${states[state]}",
+      message: "The connection state changed from ${states[_connectionState]} to ${states[state]}",
+      type: state is Disconnecting ? DebugType.warning : (state is Disconnected ? DebugType.error : DebugType.info),
     );
     _connectionState = state;
     _connected = state is Connected;
@@ -138,7 +138,7 @@ class PusherClient {
 
   /// Handles WebSocket connection errors.
   void _onConnectionError(dynamic error) {
-    options.log("CONNECTION_ERROR", null, "error: $error");
+    options.log("CONNECTION_ERROR", message: "Error: $error", type: DebugType.error);
 
     disconnect(1006, error.message);
 
@@ -162,7 +162,7 @@ class PusherClient {
 
   /// Handles successful WebSocket connection establishment.
   void _onConnectionEstablished(Map data) {
-    options.log("CONNECTION_ESTABLISHED", null, "data: $data");
+    options.log("CONNECTION_ESTABLISHED", data: data, type: DebugType.success);
     _socketId = data['socket_id'];
     _connected = true;
     _reSubscribe();
@@ -170,7 +170,7 @@ class PusherClient {
 
   /// Handles the ping event from the Pusher server.
   void _onPing(data) {
-    options.log("PINGING", null, "data: $data");
+    options.log("PINGING", data: "$data");
     sendEvent("pusher:pong", data);
   }
 
@@ -210,7 +210,7 @@ class PusherClient {
 
   /// Handles incoming WebSocket messages.
   void _onMessageReceived(message) {
-    options.log("MESSAGE_RECEIVED", null, "$message");
+    options.log("MESSAGE_RECEIVED", message: message, type: DebugType.success);
 
     dynamic event;
 
@@ -261,7 +261,7 @@ class PusherClient {
   /// The [event] parameter specifies the event name, and [listener] is the
   /// callback function to execute when the event is triggered.
   void bind(String event, Function listener) {
-    options.log("EVENT_BINDING", "event: $event");
+    options.log("EVENT_BINDING", event: event, type: DebugType.verbose);
 
     _eventsListeners.bind(event, listener);
   }
@@ -271,7 +271,7 @@ class PusherClient {
   /// The [event] parameter specifies the event name. The optional [data]
   /// parameter is the event payload, and [channel] specifies the target channel.
   void sendEvent(String event, [dynamic data, String? channel]) {
-    options.log("SEND_EVENT", null, "event: $event, data: $data");
+    options.log("SEND_EVENT", event: event, data: data);
     _socket.send(jsonEncode({
       "event": event,
       "data": data,

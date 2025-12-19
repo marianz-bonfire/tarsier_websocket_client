@@ -50,7 +50,7 @@ class PresenceChannel extends PrivateChannel {
   /// Adds a new [Member] to the channel's members collection when the
   /// `pusher:member_added` event is triggered.
   void _onMemberAdd(Map data) {
-    options.log("MEMBER_ADDED", name, "member: $data");
+    options.log("MEMBER_ADDED", channel: name, data: "member: $data");
 
     final member = Member.fromMap(data);
     _members.add(member.id, Member.fromMap(data), override: true);
@@ -61,7 +61,7 @@ class PresenceChannel extends PrivateChannel {
   /// Removes a [Member] from the channel's members collection when the
   /// `pusher:member_removed` event is triggered.
   void _onMemberRemove(Map data) {
-    options.log("MEMBER_REMOVED", name, "member: $data");
+    options.log("MEMBER_REMOVED", channel: name, data: "member: $data");
 
     final id = data["user_id"] ?? data["id"];
 

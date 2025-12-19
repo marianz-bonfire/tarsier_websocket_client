@@ -51,6 +51,9 @@ class PusherOptions {
   /// Custom parameters appended to the connection URI.
   final Map<String, String> parameters;
 
+  /// Additional identifier of the client.
+  final Map<String, dynamic>? identifier;
+
   /// Authentication options for secure connections.
   final PusherAuthOptions auth;
 
@@ -102,6 +105,7 @@ class PusherOptions {
       'version': '0.0.2',
       "flash": "false",
     },
+    this.identifier,
     required this.auth,
     this.enableLogging = false,
     this.autoConnect = true,
@@ -145,7 +149,8 @@ class PusherOptions {
   ///
   /// The [level] parameter indicates the severity or category of the log.
   /// The optional [channel] and [message] provide additional context.
-  void log(String level, [String? channel, String? message]) {
+  log(String level,
+      {String? channel, String? event, dynamic data, dynamic message, DebugType type = DebugType.info}) {
     if (enableLogging) {
       String tag = [
         "PUSHER_",
@@ -153,12 +158,18 @@ class PusherOptions {
         level,
       ].join("");
 
-      String value = [
-        if (channel != null) " channel: $channel",
-        if (message != null) " $message"
-      ].join("");
+      // Create a Map and filter out null values
+      Map<String, dynamic> logData = {
+        if (channel != null) "channel": channel,
+        if (event != null) "event": event,
+        if (data != null) "data": data,
+        if (message != null) "message": message,
+      };
 
-      printLog(tag: tag, message: value, type: DebugType.info);
+      // Convert the Map to a JSON string
+      String value = jsonEncode(logData);
+
+      printLog(tag: tag, message: value, type: type);
     }
   }
 

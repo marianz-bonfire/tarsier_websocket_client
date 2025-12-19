@@ -89,7 +89,7 @@ class Channel {
 
     _subscribed = false;
 
-    options.log("SUBSCRIBE", name);
+    options.log("SUBSCRIBE", channel: name);
 
     client.sendEvent("pusher:subscribe", {"channel": name});
 
@@ -103,7 +103,7 @@ class Channel {
   /// The [event] parameter specifies the event name, and [listener] is the
   /// callback function to execute when the event is triggered.
   void bind(String event, Function listener) {
-    options.log("EVENT_BINDING", "event: $event");
+    options.log("EVENT_BINDING", event: event, channel: name);
 
     _eventsListenersCollection.bind(event, listener);
   }
@@ -119,7 +119,7 @@ class Channel {
   /// The [event] parameter specifies the name of the event, and [data]
   /// contains the event payload.
   void handleEvent(String event, dynamic data) {
-    options.log("EVENT", name, "event: $event  data: $data");
+    options.log('EVENT', channel: name, event: event, data: data);
 
     _eventsListenersCollection.handleEvent(event, data);
   }

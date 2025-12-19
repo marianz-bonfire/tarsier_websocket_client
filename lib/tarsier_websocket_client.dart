@@ -22,7 +22,7 @@
 /// );
 /// client.connect();
 /// ```
-library tarsier_websocket_client;
+library;
 
 export 'src/tarsier_websocket_client_base.dart';
 export 'src/pusher_client_socket.dart';

@@ -1,3 +1,10 @@
+## 1.1.0
+- Updated dependency versions to latest stable releases
+- Improved Dart 3 analysis and linting configuration
+- Bumped compatibility with all Dart 3.x SDKs
+- Enhanced logging
+- Updated and enhanced the main example
+
 ## 1.0.1
 - Upgraded environment SDK constraint
 - Upgraded some dependencies

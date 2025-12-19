@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/auth_data.dart';
 import '../models/member.dart';
+import '../utils/print_debug.dart';
 import 'channel.dart';
 
 /// Represents a private channel in Pusher, which allows for authenticated user interactions.
@@ -52,23 +53,36 @@ class PrivateChannel extends Channel {
 
     subscribed = false;
 
-    options.log("SUBSCRIBE", name);
+    options.log("SUBSCRIBE", channel: name);
 
-    final payload = {
+    var payload = {
       "channel_name": name,
       "socket_id": client.socketId,
+    };
+
+    // Check if identifier is not null and not empty, then merge
+    if (options.identifier != null && options.identifier!.isNotEmpty) {
+      payload = {
+        ...payload,
+        ...options.identifier!,
+      };
+    }
+
+    var authHeaders = {
+      ...authOptions.headers,
+      'x-app-key': options.key,
     };
 
     final response = await http.post(
       Uri.parse(authOptions.endpoint),
       body: payload,
-      headers: authOptions.headers,
+      headers: authHeaders,
     );
 
     options.log(
       "AUTH_RESPONSE",
-      name,
-      "options: $authOptions, payload: $payload,  response: ${response.body}",
+      channel: name,
+      data: {"options": '$authOptions', "payload": payload, "response": response.body},
     );
 
     if (response.statusCode == 200) {
@@ -102,8 +116,8 @@ class PrivateChannel extends Channel {
     }
   }
 
-  void _onSubscriptionSuccess(data) {
-    options.log("SUBSCRIPTION_SUCCESS", name, "data: $data");
+  void _onSubscriptionSuccess(dynamic data) {
+    options.log("SUBSCRIPTION_SUCCESS", channel: name, type: DebugType.success);
 
     subscribed = true;
   }
@@ -117,8 +131,8 @@ class PrivateChannel extends Channel {
   /// and displaying the channel's state.
   int get subscriptionCount => _subscriptionCount;
 
-  void _onSubscriptionCount(data) {
-    options.log("SUBSCRIPTION_COUNT", name, "data: $data");
+  void _onSubscriptionCount(dynamic data) {
+    options.log("SUBSCRIPTION_COUNT", channel: name, data: data);
 
     _subscriptionCount = data["subscription_count"];
   }
@@ -138,7 +152,14 @@ class PrivateChannel extends Channel {
   /// with "client-" to indicate that it is a client event. The optional
   /// [data] parameter contains the data to be sent with the event.
   void trigger(String event, [data]) {
-    options.log("TRIGGER", name, "event: $event  data: $data");
+    if (!subscribed) {
+      String errorMessage = "Unable to trigger event [$event] because channel [$name] is not yet subscribed";
+      options.log("TRIGGER_ERROR", message: errorMessage, type: DebugType.error);
+
+      handleEvent("pusher:error", errorMessage);
+      return;
+    }
+    options.log("TRIGGER", channel: name, event: event, data: data);
 
     if (!event.startsWith("client-")) {
       event = "client-$event";
