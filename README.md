@@ -54,9 +54,8 @@ Since both services follow the same protocol, they are fully supported.
 
 <p align="center">
   <a href="https://pub.dev/packages/tarsier_websocket_client">
-    <img height="260" src="https://raw.githubusercontent.com/marianz-bonfire/tarsier_websocket_client/master/example/flutter_example/assets/NvdCYXm98i.png">
+    <img src="https://raw.githubusercontent.com/marianz-bonfire/tarsier_websocket_client/master/example/flutter_example/assets/NvdCYXm98i.png">
   </a>
-  <h1 align="center">Tarsier WebSocket Client</h1>
 </p>
 
 ## 👋 Disclaimer
